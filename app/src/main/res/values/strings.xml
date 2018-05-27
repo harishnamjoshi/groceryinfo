@@ -1,1 +1,7 @@
-<resources></resources>
+<resources>
+    <string name="app_name">Grocery</string>
+    <string name="transition_name_product_icon">transition_name_product_icon</string>
+    <string name="data_not_available">Data not available</string>
+    <string name="unknown_error">Unknown Error occurred. Please try again.</string>
+    <string name="no_network_connection">Unable to fetch data. Check network connection.</string>
+</resources>

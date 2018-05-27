@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GroceriesActivity">
+    tools:context=".grocerylist.GroceriesActivity">
 
-    <view
-        class="android.support.v7.app.AlertController$RecycleListView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/groceries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/top_margin_groceries_recyclerview"
