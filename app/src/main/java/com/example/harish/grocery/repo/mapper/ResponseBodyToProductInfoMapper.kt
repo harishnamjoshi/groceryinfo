@@ -2,15 +2,17 @@ package com.example.harish.grocery.repo.mapper
 
 import com.example.harish.grocery.model.BriefProductInfo
 import com.example.harish.grocery.model.ProductInfo
-import okhttp3.ResponseBody
+import com.example.harish.grocery.repo.validator.Validator
 import org.json.JSONObject
 
-class JSONObjectToProductInfoMapper(private val briefObjectMapper: Mapper<JSONObject, BriefProductInfo>)
-    : Mapper<ResponseBody?, ProductInfo?> {
-    override fun map(param: ResponseBody?): ProductInfo? {
+class ResponseBodyToProductInfoMapper(
+        private val briefObjectMapper: Mapper<JSONObject, BriefProductInfo>,
+        private val validator: Validator<String?>
+) : Mapper<String?, ProductInfo?> {
+    override fun map(param: String?): ProductInfo? {
 
-        if (param != null) {
-            val jsonObject = JSONObject(param.string())
+        if (validator.validate(param)) {
+            val jsonObject = JSONObject(param)
 
             val productJson = jsonObject.getJSONObject(JSON_PRODUCT)
 

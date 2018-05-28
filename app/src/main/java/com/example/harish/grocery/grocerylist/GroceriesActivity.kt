@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.widget.ImageView
 import com.example.harish.grocery.R
 import com.example.harish.grocery.grocerylist.adapter.GroceriesAdapter
@@ -16,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_groceries.*
 
 
 class GroceriesActivity : AppCompatActivity(), IGroceriesContract.View, IProductClickListener {
-
     override var presenter: IGroceriesContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +64,7 @@ class GroceriesActivity : AppCompatActivity(), IGroceriesContract.View, IProduct
         }
     }
 
-    override fun noDataPresent() {
+    override fun showNoDataPresent() {
         Snackbar.make(groceries, getString(R.string.data_not_available), Snackbar.LENGTH_SHORT).show()
     }
 
@@ -78,5 +78,21 @@ class GroceriesActivity : AppCompatActivity(), IGroceriesContract.View, IProduct
 
     override fun onProductClicked(briefProductInfo: BriefProductInfo, imageView: ImageView?) {
         launchProductDetails(this, briefProductInfo, imageView)
+    }
+
+    override fun hideLoading() {
+        groceriesLoadingIndicator.visibility = View.GONE
+    }
+
+    override fun showLoading() {
+        groceriesLoadingIndicator.visibility = View.VISIBLE
+    }
+
+    override fun showGroceries() {
+        groceries.visibility = View.VISIBLE
+    }
+
+    override fun hideGroceries() {
+        groceries.visibility = View.INVISIBLE
     }
 }
