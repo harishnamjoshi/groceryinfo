@@ -22,4 +22,8 @@ val JSON_DESCRIPTION = "desc"
 
 val CURRENCY = "$"
 
+val JSON_STATUS = "status"
+
+val JSON_CODE = "code"
+
 fun createImageUrl(name: String): String = BASE_IMAGE_URL + name
