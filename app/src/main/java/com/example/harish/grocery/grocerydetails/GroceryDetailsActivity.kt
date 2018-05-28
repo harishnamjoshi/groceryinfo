@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.bumptech.glide.Glide
 import com.example.harish.grocery.R
 import com.example.harish.grocery.model.BriefProductInfo
@@ -68,7 +69,7 @@ class GroceryDetailsActivity : AppCompatActivity(), IGroceryDetailsContract.View
         Glide.with(this).load(icon).into(detail_icon)
     }
 
-    override fun noDataPresent() {
+    override fun showNoDataPresent() {
         Snackbar.make(detail_description, getString(R.string.data_not_available), Snackbar.LENGTH_SHORT).show()
     }
 
@@ -78,5 +79,21 @@ class GroceryDetailsActivity : AppCompatActivity(), IGroceryDetailsContract.View
 
     override fun showNetworkError() {
         Snackbar.make(detail_description, getString(R.string.no_network_connection), Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun hideLoading() {
+        descLoadingIndicator.visibility = View.GONE
+    }
+
+    override fun showLoading() {
+        descLoadingIndicator.visibility = View.VISIBLE
+    }
+
+    override fun showDescription() {
+        detail_description.visibility = View.VISIBLE
+    }
+
+    override fun hideDescription() {
+        detail_description.visibility = View.GONE
     }
 }

@@ -1,6 +1,7 @@
 package com.example.harish.grocery.grocerylist
 
 import com.example.harish.grocery.model.BriefProductInfo
+import java.net.UnknownHostException
 
 interface IGroceriesContract {
 
@@ -11,11 +12,19 @@ interface IGroceriesContract {
 
         fun displayProducts(products: ArrayList<BriefProductInfo>)
 
-        fun noDataPresent()
+        fun showNoDataPresent()
 
         fun showUnknownError()
 
         fun showNetworkError()
+
+        fun showLoading()
+
+        fun hideLoading()
+
+        fun showGroceries()
+
+        fun hideGroceries()
     }
 
     interface Presenter {
@@ -25,12 +34,12 @@ interface IGroceriesContract {
 
         fun reachedEnd()
 
-
     }
 
     interface Model {
 
-        fun next(): ArrayList<BriefProductInfo>
+        @Throws(UnknownHostException::class)
+        fun fetchPage(page: Int, pageSize: Int): ArrayList<BriefProductInfo>
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.harish.grocery.grocerylist
 
+import com.example.harish.grocery.repo.DEFAULT_PAGE
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,8 +16,14 @@ class GroceriesPresenter(view: IGroceriesContract.View, private var model: IGroc
 
     private var isLoading: Boolean = false
 
+    private var page: Int = DEFAULT_PAGE
+
+    private val pageSize: Int = 21
+
 
     override fun connected() {
+        view.get()?.hideGroceries()
+        view.get()?.showLoading()
         loadData()
     }
 
@@ -31,18 +38,28 @@ class GroceriesPresenter(view: IGroceriesContract.View, private var model: IGroc
         isLoading = true
         disposable.add(
                 Single.just(true)
-                        .map { model.next() }
+                        .map { model.fetchPage(page, pageSize) }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 {
+                                    view.get()?.showGroceries()
+                                    view.get()?.hideLoading()
+                                    page++
                                     isLoading = false
-                                    view.get()?.displayProducts(it) ?: NullPointerException()
+                                    if (it.isEmpty()) {
+                                        view.get()?.showNoDataPresent() ?: NullPointerException()
+                                    } else {
+                                        view.get()?.displayProducts(it) ?: NullPointerException()
+                                    }
+
                                 },
                                 {
+                                    view.get()?.showGroceries()
+                                    view.get()?.hideLoading()
                                     isLoading = false
                                     when (it) {
-                                        is NullPointerException -> view.get()?.noDataPresent()
+                                        is NullPointerException -> view.get()?.showUnknownError()
                                         is UnknownHostException -> view.get()?.showNetworkError()
                                         else -> view.get()?.showUnknownError()
 

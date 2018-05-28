@@ -20,19 +20,27 @@ class GroceryDetailsPresenter(view: IGroceryDetailsContract.View, private val mo
             view.get()?.setTitle(briefProductInfo.title)
             view.get()?.setPrice(briefProductInfo.currency + briefProductInfo.price)
             view.get()?.setIcon(briefProductInfo.imgUrl)
+            view.get()?.showLoading()
+            view.get()?.hideDescription()
             disposable.add(Single.just(true)
                     .map { model.fetchProductInfo(briefProductInfo.productId) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             {
+                                view.get()?.hideLoading()
+                                view.get()?.showDescription()
                                 if (it != null) {
                                     view.get()?.setDescription(it.details)
+                                } else {
+                                    view.get()?.showNoDataPresent()
                                 }
                             },
                             {
+                                view.get()?.hideLoading()
+                                view.get()?.showDescription()
                                 when (it) {
-                                    is NullPointerException -> view.get()?.noDataPresent()
+                                    is NullPointerException -> view.get()?.showNoDataPresent()
                                     is UnknownHostException -> view.get()?.showNetworkError()
                                     else -> view.get()?.showUnknownError()
 

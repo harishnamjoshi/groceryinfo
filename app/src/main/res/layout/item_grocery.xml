@@ -31,6 +31,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:transitionName="@string/transition_name_product_icon"
+        android:contentDescription="@string/product_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/title"
